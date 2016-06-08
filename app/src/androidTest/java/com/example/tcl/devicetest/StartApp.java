@@ -37,7 +37,9 @@ public class StartApp {
     @Test
     public void startActivity(){
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        //获取包管理
         PackageManager pm = context.getPackageManager();
+        //获取包信息、应用信息
         List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
         List<ApplicationInfo> applicationInfos = pm.getInstalledApplications(0);
         Intent mainIntent = new Intent(Intent.ACTION_MAIN);

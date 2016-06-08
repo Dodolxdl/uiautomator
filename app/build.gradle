@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "com.example.tcl.devicetest"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+//    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile files('D:/asApp/Devicetest/libs/exposed-instrumentation-api-publish-0.3-release-no-dep.jar')
+    compile files('D:/asApp/Devicetest/libs/espresso-contrib-2.2-release-no-dep.jar')
+//    compile files('D:/asApp/Devicetest/libs/guava-18.0.jar')
+    compile files('D:/asApp/Devicetest/libs/hamcrest-integration-1.3.jar')
+    compile files('D:/asApp/Devicetest/libs/espresso-web-2.2-release-no-dep.jar')
+    compile files('D:/asApp/Devicetest/libs/espresso-intents-2.2-release-no-dep.jar')
+//    compile files('D:/asApp/Devicetest/libs/espresso-core-2.2-release-no-dep.jar')
+    compile files('D:/asApp/Devicetest/libs/uiautomator-v18-2.1.1-release-no-dep.jar')
+    compile files('D:/asApp/Devicetest/libs/hamcrest-core-1.3.jar')
+    compile files('D:/asApp/Devicetest/libs/espresso-idling-resource-2.2-release-no-dep.jar')
+    compile files('D:/asApp/Devicetest/libs/javawriter-2.1.1.jar')
+    compile files('D:/asApp/Devicetest/libs/hamcrest-library-1.3.jar')
+    compile files('D:/asApp/Devicetest/libs/javax.annotation-api-1.2.jar')
+    compile files('D:/asApp/Devicetest/libs/javax.inject-1.jar')
+    compile files('D:/asApp/Devicetest/libs/jsr305-2.0.1.jar')
+    compile files('D:/asApp/Devicetest/libs/junit-4.12.jar')
+    compile files('D:/asApp/Devicetest/libs/rules-0.3-release-no-dep.jar')
+    compile files('D:/asApp/Devicetest/libs/runner-0.3-release-no-dep.jar')
+}

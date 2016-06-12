@@ -2,7 +2,6 @@ package com.example.tcl.devicetest;
 
 import android.app.ActivityManager;
 import android.app.Instrumentation;
-import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +32,7 @@ public class StartApp {
         instrumentation = InstrumentationRegistry.getInstrumentation();
         device = UiDevice.getInstance(instrumentation);
         context = InstrumentationRegistry.getContext();
+
     }
     @Test
     public void startActivity(){

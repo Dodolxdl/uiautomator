@@ -35,17 +35,12 @@ public class AppTime {
     private Context context;
     private PackageManager pm;
 
-
     @Before
     public void setUp(){
         instrumentation = InstrumentationRegistry.getInstrumentation();
         device = UiDevice.getInstance(instrumentation);
         context = InstrumentationRegistry.getContext();
         pm = context.getPackageManager();
-
-
-
-
     }
     @After
     public void tearDown(){
@@ -56,41 +51,47 @@ public class AppTime {
     }
     @Test
     public void getCoolTime(){
+        //获取已安装应用包的信息
         List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
+        //获取已安装应用信息
         List<ApplicationInfo> applicationInfos = pm.getInstalledApplications(0);
+        //获取每个应用的component
         Intent mainIntent = new Intent(Intent.ACTION_MAIN);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        File file1 = new File(Environment.getExternalStorageDirectory(),"CoolTime.txt");
-        if(file1.exists()){
-            file1.delete();
+        //保存的文件路径
+        File file = new File(Environment.getExternalStorageDirectory(),"CoolTime.txt");
+        if(file.exists()){
+            file.delete();
         }
         FileWriter fos =null;
-        FileWriter fos1 = null;
+        //查询每个应用启动的component
         List<ResolveInfo> resolveInfos = pm.queryIntentActivities(mainIntent,0);
         Intent intent = new Intent();
         for(ResolveInfo info:resolveInfos){
             try {
-                fos1 = new FileWriter(file1,true);
+                //文件追加写入
+                fos = new FileWriter(file,true);
+                //获取component转换成字符串
                 String[] str = info.toString().split(" ");
+                //启动component获取到app启动信息
                 String waitTime = device.executeShellCommand("am start -W "+ str[1]);
+                //用正则去匹配所需要的字符
                 Pattern pattern = Pattern.compile("WaitTime:\\s\\d*");
                 Matcher matcher = pattern.matcher(waitTime);
-                String activityName = info.activityInfo.name;
+                //获取包名
+                String packageName = info.activityInfo.packageName;
                 if(matcher.find()){
-                    fos1.write(activityName + "冷启动时间" + matcher.group(0) + "\n");
-                    sleep(5000);
+                    //写入数据到文件
+                    fos.write(packageName + "首次冷启动时间" + ":"+ matcher.group(0) + "ms\n");
+                    sleep(2000);
                 }
-
+                device.pressBack();
+                device.pressBack();
+                device.pressBack();
+                device.pressHome();
             } catch (IOException e) {
                 e.printStackTrace();
             }finally {
-                if(fos1!=null){
-                    try {
-                        fos1.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
                 if(fos!=null){
                     try {
                         fos.close();
@@ -101,13 +102,7 @@ public class AppTime {
             }
         }
     }
-    public void sleep(int s){
-        try {
-            Thread.sleep(s);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+
     @Test
     public void getHootTime(){
         List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
@@ -134,8 +129,8 @@ public class AppTime {
                         String[] string = matcher.group().split(":");
                         String finalTime = string[1].trim();
                         time.add(finalTime);
-                        device.pressHome();
                         sleep(1000);
+                        device.pressHome();
                     }
                 }
             } catch (IOException e) {
@@ -192,5 +187,12 @@ public class AppTime {
             ints[i] = Integer.parseInt(strings[i]);
         }
         return  ints;
+    }
+    public void sleep(int s){
+        try {
+            Thread.sleep(s);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

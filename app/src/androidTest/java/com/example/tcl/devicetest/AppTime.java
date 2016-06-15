@@ -85,9 +85,6 @@ public class AppTime {
                     fos.write(packageName + "首次冷启动时间" + ":"+ matcher.group(0) + "ms\n");
                     sleep(2000);
                 }
-                device.pressBack();
-                device.pressBack();
-                device.pressBack();
                 device.pressHome();
             } catch (IOException e) {
                 e.printStackTrace();

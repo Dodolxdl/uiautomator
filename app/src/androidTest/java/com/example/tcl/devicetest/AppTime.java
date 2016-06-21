@@ -82,9 +82,12 @@ public class AppTime {
                 String packageName = info.activityInfo.packageName;
                 if(matcher.find()){
                     //写入数据到文件
-                    fos.write(packageName + "首次冷启动时间" + ":"+ matcher.group(0) + "ms\n");
-                    sleep(2000);
+                    String time = matcher.group(0).toString();
+                    fos.write(packageName + "首次冷启动时间" + ":"+ time + "ms\n");
                 }
+                device.pressBack();
+                device.pressBack();
+                device.pressBack();
                 device.pressHome();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -126,31 +129,26 @@ public class AppTime {
                         String[] string = matcher.group().split(":");
                         String finalTime = string[1].trim();
                         time.add(finalTime);
-                        sleep(1000);
+                        device.pressBack();
+                        device.pressBack();
+                        device.pressBack();
                         device.pressHome();
                     }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //将List集合转化为String数组
             String[] str = getSting(time);
+            //将数字字符串转换为int型
             int[] ints = getInt(str);
+            //求平均数
             double averageTime = getAverageTime(ints);
-//            String finalTime = averageTime+" ";
             String finalTime = String.valueOf(averageTime);
             String packageName = info.activityInfo.packageName;
             try {
                 fw = new FileWriter(file,true);
-                fw.write(packageName + ":");
-                for(String string:str){
-                    fw.write(string+" ");
-                }
-                fw.write("10次平均时间为："+ finalTime + "ms");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                fw.write("\n");
+                fw.write(packageName + ":" + "10次平均时间为："+ finalTime + "ms\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }finally {

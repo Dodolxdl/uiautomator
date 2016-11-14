@@ -58,15 +58,16 @@ public class AppTime {
         //获取每个应用的component
         Intent mainIntent = new Intent(Intent.ACTION_MAIN);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+        //查询每个应用启动的component
+        List<ResolveInfo> resolveInfos = pm.queryIntentActivities(mainIntent,0);
+        Intent intent = new Intent();
         //保存的文件路径
         File file = new File(Environment.getExternalStorageDirectory(),"CoolTime.txt");
         if(file.exists()){
             file.delete();
         }
-        FileWriter fos =null;
-        //查询每个应用启动的component
-        List<ResolveInfo> resolveInfos = pm.queryIntentActivities(mainIntent,0);
-        Intent intent = new Intent();
+        FileWriter fos = null;
         for(ResolveInfo info:resolveInfos){
             try {
                 //文件追加写入
@@ -164,7 +165,7 @@ public class AppTime {
     }
     //求平均数
     public double getAverageTime(int[] arrays){
-        double sum=0;
+        double sum = 0;
         for(int i=0;i<arrays.length;i++){
             sum+=arrays[i];
         }
@@ -190,4 +191,5 @@ public class AppTime {
             e.printStackTrace();
         }
     }
+
 }

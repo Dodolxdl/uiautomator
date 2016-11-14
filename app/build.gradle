@@ -1,16 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 23
+    buildToolsVersion "24.0.0"
 
     defaultConfig {
-        applicationId "com.example.tcl.devicetest"
-        minSdkVersion 15
-        targetSdkVersion 22
+        applicationId "com.tcl.uiautomator"
+        minSdkVersion 21
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -22,25 +21,28 @@ android {
 }
 
 dependencies {
-//    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:22.0.0'
-    compile files('D:/asApp/Devicetest/libs/exposed-instrumentation-api-publish-0.3-release-no-dep.jar')
-    compile files('D:/asApp/Devicetest/libs/espresso-contrib-2.2-release-no-dep.jar')
-//    compile files('D:/asApp/Devicetest/libs/guava-18.0.jar')
-    compile files('D:/asApp/Devicetest/libs/hamcrest-integration-1.3.jar')
-    compile files('D:/asApp/Devicetest/libs/espresso-web-2.2-release-no-dep.jar')
-    compile files('D:/asApp/Devicetest/libs/espresso-intents-2.2-release-no-dep.jar')
-//    compile files('D:/asApp/Devicetest/libs/espresso-core-2.2-release-no-dep.jar')
-    compile files('D:/asApp/Devicetest/libs/uiautomator-v18-2.1.1-release-no-dep.jar')
-    compile files('D:/asApp/Devicetest/libs/hamcrest-core-1.3.jar')
-    compile files('D:/asApp/Devicetest/libs/espresso-idling-resource-2.2-release-no-dep.jar')
-    compile files('D:/asApp/Devicetest/libs/javawriter-2.1.1.jar')
-    compile files('D:/asApp/Devicetest/libs/hamcrest-library-1.3.jar')
-    compile files('D:/asApp/Devicetest/libs/javax.annotation-api-1.2.jar')
-    compile files('D:/asApp/Devicetest/libs/javax.inject-1.jar')
-    compile files('D:/asApp/Devicetest/libs/jsr305-2.0.1.jar')
-    compile files('D:/asApp/Devicetest/libs/junit-4.12.jar')
-    compile files('D:/asApp/Devicetest/libs/rules-0.3-release-no-dep.jar')
-    compile files('D:/asApp/Devicetest/libs/runner-0.3-release-no-dep.jar')
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    androidTestCompile 'com.android.support.test:runner:0.3'
+    androidTestCompile 'com.android.support.test:rules:0.3'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.0'
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/espresso-contrib-2.2-release-no-dep.jar')
+////    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/espresso-core-2.2-release-no-dep.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/espresso-idling-resource-2.2-release-no-dep.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/uiautomator-v18-2.1.1-release-no-dep.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/runner-0.3-release-no-dep.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/rules-0.3-release-no-dep.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/junit-4.12.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/jsr305-2.0.1.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/javax.inject-1.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/javax.annotation-api-1.2.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/javawriter-2.1.1.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/hamcrest-library-1.3.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/hamcrest-integration-1.3.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/hamcrest-core-1.3.jar')
+////    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/guava-18.0.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/exposed-instrumentation-api-publish-0.3-release-no-dep.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/espresso-web-2.2-release-no-dep.jar')
+//    compile files('D:/TestDemo/Uiautomator/uiautomator/libs/espresso-intents-2.2-release-no-dep.jar')
 }

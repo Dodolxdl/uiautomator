@@ -2,13 +2,7 @@ package com.example.tcl.devicetest;
 
 import android.app.ActivityManager;
 import android.app.Instrumentation;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Environment;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -36,11 +30,14 @@ public class TestDevice {
     private UiDevice device;
     private Instrumentation instrumentation;
     private Context context;
+    private static final String TAG = "ZHANG";
+    private ActivityManager am;
     @Before
     public void setUp(){
         instrumentation = InstrumentationRegistry.getInstrumentation();
         device = UiDevice.getInstance(instrumentation);
         context = InstrumentationRegistry.getContext();
+        am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
     }
     @After
     public void setDown(){
@@ -49,53 +46,31 @@ public class TestDevice {
         device.pressBack();
         device.pressHome();
     }
-    @Test
-    public void startApp(){
-        PackageManager pm = context.getPackageManager();
-        //获取安装包的的信息
-        List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
-        //获取应用的信息
-        List<ApplicationInfo> applicationInfos =pm.getInstalledApplications(0);
 
-        Intent mainIntent = new Intent(Intent.ACTION_MAIN);
-        //获取每个应用的启动入口component信息
-        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-
-
-        List<ResolveInfo> resolveInfos = pm.queryIntentActivities(mainIntent,0);
-        Intent intent = new Intent();
-        for(ResolveInfo info:resolveInfos){
-            String activityName = info.activityInfo.name;
-            String packageName = info.activityInfo.packageName;
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//每次启动为标记为新任务
-            intent.setComponent(new ComponentName(packageName,activityName));
-            context.startActivity(intent);
-            sleep(5000);
-        }
-    }
     public void sleep(int sleep){
         try {
             Thread.sleep(sleep);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
     @Test
     public void deviceTest(){
         device.pressBack();
         device.pressHome();
+
     }
     @Test
     public void getActivity(){
         ActivityManager am = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
         String activity = am.getRunningTasks(1).get(0).topActivity.getClassName();
+        Log.d(TAG, "getActivity: "+activity);
     }
-    public static boolean isSdCardExits(){
+    public boolean isSdCardExits(){
         //判断SD卡是否存在
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
-    public static String getPathSdcard(){
+    public String getPathSdcard(){
         //获取sd路径
         boolean exist = isSdCardExits();
         String sdPath = "";
@@ -107,20 +82,22 @@ public class TestDevice {
         return sdPath;
 
     }
-    public static String getFilePath(){
-        //获取文件路径
-        String filePath = "";
-        File file = new File(Environment.getExternalStorageDirectory(),"test.txt");
-        if(file.exists()){
-            filePath = file.getAbsolutePath();
-        }else {
-            filePath = "不适用";
-        }
-        return filePath;
-    }
+//    @Test
+//    public String getFilePath(){
+//        //获取文件路径
+//        String filePath = "";
+//        File file = new File(Environment.getExternalStorageDirectory(),"test.txt");
+//        if(file.exists()){
+//            filePath = file.getAbsolutePath();
+//        }else {
+//            filePath = "不适用";
+//        }
+//        return filePath;
+//    }
+    @Test
     public void readFile(){
         try {
-            File file = new File(Environment.getExternalStorageDirectory(),"txt.txt");
+            File file = new File(Environment.getExternalStorageDirectory(),"test.txt");
             FileInputStream fis = new FileInputStream(file);
             byte[] bytes = new byte[1024];
             fis.read(bytes);
@@ -133,8 +110,10 @@ public class TestDevice {
     @Test
     public void writeFile(){
         try {
-            File file = new File(Environment.getExternalStorageDirectory(),"text.txt");
-//            File file = new File("/storage/08FC-171A/text.txt");
+            File file = new File(Environment.getExternalStorageDirectory(),"test.txt");
+            if (file.exists()) {
+                file.delete();
+            }
             FileOutputStream fos = new FileOutputStream(file);
             ActivityManager am = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
             String activity = am.getRunningTasks(1).get(0).topActivity.getClassName();
@@ -148,13 +127,13 @@ public class TestDevice {
     @Test
     public void bufferWrite(){
         try {
-            File file = new File(Environment.getExternalStorageDirectory(),"text1.txt");
+            File file = new File(Environment.getExternalStorageDirectory(),"text2.txt");
             BufferedWriter bw = new BufferedWriter(new FileWriter(file,true));
             bw.write("nihao");
-            bw.flush();
             bw.write("\n");
-            sleep(10000);
+            sleep(1000);
             bw.write("zhangrui");
+            bw.flush();
             bw.close();
         } catch (IOException e) {
             e.printStackTrace();

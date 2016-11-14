@@ -32,6 +32,7 @@ public class getMeminfo {
     private Context context;
     private UiDevice device;
     private Instrumentation instrumentation;
+    final String processName = "com.monster.appmanager";
     @Before
     public void setUp(){
         instrumentation = InstrumentationRegistry.getInstrumentation();
@@ -138,7 +139,7 @@ public class getMeminfo {
             int[] pids = new int[] {pid};
             Debug.MemoryInfo[] memoryInfo = mActivityManager.getProcessMemoryInfo(pids);
             int memorySize = memoryInfo[0].dalvikPrivateDirty;
-            Log.i("TAG",memorySize+"");
+            Log.i("TAG","meminfo"+memorySize+"");
 
             System.out.println("processName="+processName+",pid="+pid+",uid="+uid+",memorySize="+memorySize+"kb");
         }

@@ -9,10 +9,7 @@ import android.content.pm.ResolveInfo;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject2;
-import android.support.test.uiautomator.Until;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -33,14 +30,14 @@ public class StartApp {
         instrumentation = InstrumentationRegistry.getInstrumentation();
         device = UiDevice.getInstance(instrumentation);
         context = InstrumentationRegistry.getContext();
+        //ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        //获取包信息、应用信息
+//      List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
+//      List<ApplicationInfo> applicationInfos = pm.getInstalledApplications(0);
 
     }
     @Test
     public void startActivity(){
-//        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        //获取包信息、应用信息
-//        List<PackageInfo> packageInfos = pm.getInstalledPackages(0);
-//        List<ApplicationInfo> applicationInfos = pm.getInstalledApplications(0);
         Intent mainIntent = new Intent(Intent.ACTION_MAIN,null);
         mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         //获取包管理
@@ -54,13 +51,7 @@ public class StartApp {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setComponent(new ComponentName(packageName,activityName));
             context.startActivity(intent);
-            device.pressBack();
-            device.pressBack();
-            device.pressHome();
-//            sleep(5000);
-//            clearRecentApps();
-//            sleep(5000);
-
+            clearRecentApps();
         }
 
     }
@@ -72,11 +63,16 @@ public class StartApp {
         }
     }
     public void clearRecentApps(){
+        int height = device.getDisplayHeight();
+        int width = device.getDisplayWidth();
         try {
+            sleep(2000);
             device.pressRecentApps();
-            sleep(5000);
-            UiObject2 clearObject = device.findObject(By.res("com.android.systemui:id/clear_recents_image"));
-            clearObject.clickAndWait(Until.newWindow(),2000);
+            sleep(2000);
+            device.swipe(width/2,height/2,width/2,height/2-600,5);
+            sleep(2000);
+            device.pressBack();
+            sleep(2000);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
